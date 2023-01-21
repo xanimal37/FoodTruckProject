@@ -28,6 +28,8 @@ public class FoodTruckApp {
 		keepGoing = true;
 		numTrucks=0;
 		
+		chooseOption(input);
+		
 	}
 	
 	//method to get initial user choice (enter truck or quit)
