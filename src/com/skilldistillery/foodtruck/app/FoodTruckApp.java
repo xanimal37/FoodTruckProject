@@ -92,7 +92,7 @@ public class FoodTruckApp {
 				keepGoing = false;
 				break;
 			default:
-				System.out.println("Please enter a valid option ( or QUIT)");
+				System.out.println("Please enter a valid option!");
 				break;
 			}
 		}
