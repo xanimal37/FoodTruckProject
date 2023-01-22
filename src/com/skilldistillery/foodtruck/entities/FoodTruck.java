@@ -48,6 +48,6 @@ public class FoodTruck {
 	//override object string method (good practice)
 	@Override
 	public String toString() {
-		return "not implemented yet";
+		return "== " + getName() + " == " + getId() + " == " + getFoodType() + " == " + getRating() + " == ";
 	}
 }
