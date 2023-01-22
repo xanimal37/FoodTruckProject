@@ -19,11 +19,11 @@ public class FoodTruckApp {
 		// Instantiate a scanner to use for all input
 		Scanner scanner = new Scanner(System.in);
 
-		// pass scanner to app object on creatinon
+		// pass scanner to app object on creation
 		FoodTruckApp app = new FoodTruckApp();
 		// this will start the main program loop
 		app.launch(scanner);
-		// this will run afer the main program loop
+		// this will run after the main program loop
 		// closes the scanner
 		scanner.close();
 	}
@@ -34,7 +34,9 @@ public class FoodTruckApp {
 		fleet = new FoodTruck[5];
 
 		// this runs before the loop starts
-		System.out.println("== Welcome to Food Truck App ===");
+		System.out.println("==============================================");
+		System.out.println("========= Welcome to Food Truck App ==========");
+		System.out.println("==============================================");
 
 		// this is the main program loop
 		mainMenuLoop(input);
@@ -46,7 +48,20 @@ public class FoodTruckApp {
 	private void mainMenuLoop(Scanner input) {
 		boolean keepGoing = true;
 		while (keepGoing) {
-			System.out.println("Would you like to add food trucks? (Y or QUIT)");
+			// different menu items depending on numTrucks;
+			if (numTrucks == 0) {
+				System.out.println("==============================================");
+				System.out.println("Would you like to add food trucks? (Y or QUIT)");
+				System.out.println("==============================================");
+			} else {
+				System.out.println("==============================================");
+				System.out.println("Would you like to add food trucks? (Y or QUIT)");
+				System.out.println("(D)isplay all Food Trucks");
+				System.out.println("View (A)verage rating");
+				System.out.println("See the (H)ighest rated Food Truck --");
+				System.out.println("==============================================");
+			}
+
 			String choice = input.nextLine();
 			// make all caps so it's easier to write switch cases
 			choice = choice.toUpperCase();
@@ -56,11 +71,28 @@ public class FoodTruckApp {
 				// if addFoodtruck exists after entering trucks
 				displayFleet();
 				break;
+			case "D":
+				// the user could accidentally enter these choices even if they aren't offered
+				// so test that numTrucks is >0 and if so do nothing
+				if (numTrucks > 0) {
+					displayFleet();
+				}
+				break;
+			case "A":
+				if (numTrucks > 0) {
+					showAverageRating();
+				}
+				break;
+			case "H":
+				if (numTrucks > 0) {
+					showHighestRated();
+				}
+				break;
 			case "QUIT":
 				keepGoing = false;
 				break;
 			default:
-				System.out.println("Please enter a valid option (Y or QUIT)");
+				System.out.println("Please enter a valid option ( or QUIT)");
 				break;
 			}
 		}
@@ -70,7 +102,7 @@ public class FoodTruckApp {
 		// first, check that a truck can be added
 		// exit method is fleet is full
 		if (numTrucks >= 5) {
-			System.out.println("Sorry, all trucks have been entered.");
+			System.out.println("All trucks have been entered.");
 			return;
 		}
 
@@ -122,7 +154,9 @@ public class FoodTruckApp {
 	// method shows all trucks in fleet with their data
 	private void displayFleet() {
 		// header
-		System.out.println("== Name == ID == Type == Rating ==");
+		System.out.println("==============================================");
+		System.out.println("===== Name ==== ID ==== Type ==== Rating =====");
+		System.out.println("==============================================");
 
 		for (FoodTruck truck : fleet) {
 			if (truck != null) {
@@ -132,43 +166,41 @@ public class FoodTruckApp {
 	}
 
 	// method shows the truck with the highest rating
-	private void showHighestRatedTruck() {
-		//account for edge case
-		if (numTrucks == 0) {
-			System.out.println("No trucks have been entered yet!");
-		} else {
+	private void showHighestRated() {
 
-			FoodTruck highestRated = fleet[0];
+		FoodTruck highestRated = fleet[0];
 
-			for (FoodTruck truck : fleet) {
-				if (truck != null) {
-					if (truck.getRating() > highestRated.getRating()) {
-						highestRated = truck;
-					}
+		for (FoodTruck truck : fleet) {
+			if (truck != null) {
+				if (truck.getRating() > highestRated.getRating()) {
+					highestRated = truck;
 				}
 			}
-			// header
-			System.out.println("== Name == ID == Type == Rating ==");
-			System.out.println(highestRated);
 		}
+		// header
+		System.out.println("==============================================");
+		System.out.println("=========      HIGHEST RATED      ============");
+		System.out.println("===== Name ==== ID ==== Type ==== Rating =====");
+		System.out.println("==============================================");
+		System.out.println(highestRated);
 	}
 
 	// method to tell the user the average truck rating
 	private void showAverageRating() {
+
 		int total = 0;
 		double avgRating = 0;
-		
-		for(FoodTruck truck : fleet) {
-			if(truck!=null) {
-				total +=truck.getRating();			}
-		}
-		
-		avgRating = total/numTrucks;
-		System.out.println("The average truck rating is " + avgRating + " out of 10.");
-		
 
+		for (FoodTruck truck : fleet) {
+			if (truck != null) {
+				total += truck.getRating();
+			}
+		}
+
+		avgRating = total / numTrucks;
+		System.out.println("========================================================");
+		System.out.println("The average truck rating is " + avgRating + " out of 10.");
+		System.out.println("========================================================");
 	}
-	
-	
 
 }
