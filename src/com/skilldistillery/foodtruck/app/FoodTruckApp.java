@@ -1,3 +1,6 @@
+//This structure heavily copies from the MAdLibs app we had to modify 
+//for one of the evening labs
+
 package com.skilldistillery.foodtruck.app;
 
 import java.util.Scanner;
@@ -5,64 +8,107 @@ import com.skilldistillery.foodtruck.entities.FoodTruck;
 
 public class FoodTruckApp {
 
-	//fleet of FoodTrucks
+	// fleet of FoodTrucks
 	private FoodTruck[] fleet;
-	Scanner input;
-	//variable to test if we quit the program
-	boolean keepGoing;
-	//track number of trucks in fleet
-	int numTrucks;
-	
+
+	// track number of trucks in fleet
+	int numTrucks = 0;
+
 	public static void main(String[] args) {
-		
-		FoodTruckApp foodTruckApp = new FoodTruckApp();
-		
+
+		// Instantiate a scanner to use for all input
+		Scanner scanner = new Scanner(System.in);
+
+		// pass scanner to app object on creatinon
+		FoodTruckApp app = new FoodTruckApp();
+		// this will start the main program loop
+		app.launch(scanner);
+		// this will run afer the main program loop
+		// closes the scanner
+		scanner.close();
 	}
-	
-	public FoodTruckApp() {
-		
-		//instantiate array big enough to hold 5 trucks
+
+	// method within FoodTruckApp class that launches the app
+	private void launch(Scanner input) {
+		//instantiate the fleet!!
 		fleet = new FoodTruck[5];
-		//Instantiate a scanner to use for all input
-		input = new Scanner(System.in);
-		keepGoing = true;
-		numTrucks=0;
-		
-		chooseOption(input);
-		
-	}
 	
-	//method to get initial user choice (enter truck or quit)
-	void chooseOption(Scanner scanner) {
-		System.out.println("Would you like to enter a food truck? (Y or QUIT)");
-		String appChoice = scanner.nextLine();
-		appChoice = appChoice.toUpperCase();
-		switch(appChoice) {
-		case "Y":
-			System.out.println("Not implemented yet");
-			break;
-		case "QUIT":
-			closeApp();
-			break;
-		default:
-			System.out.println("Not implemented yet. need to loop input");
-			break;
+		// this runs before the loop starts
+		System.out.println("== Welcome to Food Truck App ===");
+
+		// this is the main program loop
+		mainMenuLoop(input);
+
+		// this runs when the loop ends
+		System.out.println("== Bye! Hope you had some good food! ==");
+	}
+
+	private void mainMenuLoop(Scanner input) {
+		boolean keepGoing = true;
+		while (keepGoing) {
+			System.out.println("Would you like to add food trucks? (Y or QUIT)");
+			String choice = input.nextLine();
+			//make all caps so it's easier to write switch cases
+			choice = choice.toUpperCase();			
+			switch(choice) {
+			case "Y":
+				addFoodTruck(input);
+				break;
+			case "QUIT":
+				keepGoing = false;
+				break;
+			default:
+				System.out.println("Please enter a valid option (Y or QUIT)");
+				break;
+			}
 		}
 	}
 	
-	//method to close app
-	void closeApp() {
-		System.out.println("Goodbye!");
-		System.exit(0);
-	}
-	
-	//method to get foodtruck info
-	void getTruckInfo(Scanner scanner) {
-		//check for space in fleet
+	private void addFoodTruck(Scanner input) {
+		System.out.println("Please enter the truck name:");
+		String newName = input.nextLine();
 		
-		//instantiate a new truck
-		FoodTruck newTruck = new FoodTruck();
-		System.out.println("Enter the name of the food truck:");
+		//exit if user enters quit or QUIT
+		if(newName.equals("QUIT") || newName.equals("quit")) {
+			return;
+		}
+		
+		System.out.println("Please enter the truck food type:");
+		String newFoodType = input.nextLine();
+		System.out.println("Please enter the truck rating:");
+		int newRating = input.nextInt();
+		//clear scanner
+		input.nextLine();
+		
+		System.out.println("You entered Name: " + newName + " FoodType: " + newFoodType + " Rating: "+ newRating);
+		System.out.println("Is this correct? (Y/N)");
+		//check if user really wants to enter this truck
+		String isCorrect = input.nextLine();
+		//make all UPPERCASE to make switch simpler
+		isCorrect = isCorrect.toUpperCase();
+		
+		//switch - either add the truck or go back into main loop
+		switch(isCorrect) {
+		case "N":
+			//start this method again
+			addFoodTruck(input);
+			break;
+		case "Y":
+			FoodTruck newTruck = new FoodTruck();
+			newTruck.setName(newName);
+			newTruck.setfoodType(newFoodType);
+			newTruck.setRating(newRating);
+			//add to fleet
+			fleet[numTrucks]=newTruck;
+			//fleet size tracker
+			numTrucks++;
+			addFoodTruck(input);
+			break;
+		default:
+			break;
+		}
+		
+		
 	}
 
 }

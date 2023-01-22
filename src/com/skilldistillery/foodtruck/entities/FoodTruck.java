@@ -3,10 +3,11 @@ package com.skilldistillery.foodtruck.entities;
 public class FoodTruck {
 
 	private static int nextTruckId;
-	
-	private int id;
 	private String name;
 	private String foodType;
+	private int rating;
+	//user does not set this
+	private int id;
 	
 	//constructor
 	//auto-assign id using static variable owned by FoodTruck class
@@ -23,6 +24,10 @@ public class FoodTruck {
 		this.foodType = foodType;
 	}
 	
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	
 	//getters
 	public String getName() {
 		return name;
@@ -36,6 +41,9 @@ public class FoodTruck {
 		return id;
 	}
 	
+	public int getRating() {
+		return rating;
+	}
 	
 	//override object string method (good practice)
 	@Override
